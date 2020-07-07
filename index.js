@@ -52,7 +52,7 @@ app.post("/categoriasEquipo/update", function(request,response){
     var idCategoriaEquipo = request.body.idCategoriaEquipo;
     var nombre = request.body.nombre;
     var query = "UPDATE categoriaequipo SET nombre = ? WHERE idCategoriaEquipo = ?";
-    var parametros = [idCategoriaEquipo, nombre];
+    var parametros = [nombre, idCategoriaEquipo];
     var query2 = "SELECT * FROM categoriaequipo WHERE idCategoriaEquipo = " + idCategoriaEquipo;
     conn.query(query,parametros, function (err, result) {
         if (err) {
