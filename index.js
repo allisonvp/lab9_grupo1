@@ -48,6 +48,26 @@ app.get("/categoriasEquipo/get/", function (request, response) {
     });
 });
 
+app.post("/categoriasEquipo/update", function(request,response){
+    var idCategoriaEquipo = request.body.idCategoriaEquipo;
+    var nombre = request.body.nombre;
+    var query = "UPDATE categoriaequipo SET nombre = ? WHERE idCategoriaEquipo = ?";
+    var parametros = [idCategoriaEquipo, nombre];
+    var query2 = "SELECT * FROM categoriaequipo WHERE idCategoriaEquipo = " + idCategoriaEquipo;
+    conn.query(query,parametros, function (err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            conn.query(query2,function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    response.json(result);
+                }
+            })
+        }
+    })
+});
 
 app.post("/categoriasEquipo/create", function (request, response) {
     var nombreCategoriaEquipo = request.body.nombreCategoriaEquipo;
