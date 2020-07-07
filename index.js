@@ -25,6 +25,52 @@ app.listen(8080, function () {
     console.log("Servidor levantado exitosamente");
 });
 
+app.get("/categoriasEquipo/get/:id", function (request, response) {
+    var idequipo = request.params.id;
+    var query = "select c.idCategoriaEquipo, c.nombre from categoriaequipo c INNER JOIN equipos e ON c.idCategoriaEquipo=e.idCategoriaEquipo WHERE e.idequipo=" + idequipo;
+    conn.query(query, function (err, resultado) {
+        if (err) {
+            console.log(err);
+        } else {
+            response.json(resultado);
+        }
+    });
+});
+
+app.get("/categoriasEquipo/get/", function (request, response) {
+    var query = "select * from categoriaequipo";
+    conn.query(query, function (err, resultado) {
+        if (err) {
+            console.log(err);
+        } else {
+            response.json(resultado);
+        }
+    });
+});
+
+
+app.post("/categoriasEquipo/create", function (request, response) {
+    var nombreCategoriaEquipo = request.body.nombreCategoriaEquipo;
+    var query = "INSERT INTO categoriaequipo (nombre) VALUES (?)";
+    var parametros = [nombreCategoriaEquipo];
+    conn.query(query, parametros, function (err, resultado) {
+            if (err) {
+                console.log(err);
+            } else {
+                var resultado = {
+                    estado: "ok",
+                    id: resultado.insertId,
+                    nombre: parametros
+                }
+                response.json(resultado);
+            }
+        }
+    );
+});
+
+
+
+
 
 //localhost:8080/centrospoblados/get
 app.get("/centrospoblados/get", function(request,response){
