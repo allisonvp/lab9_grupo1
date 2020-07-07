@@ -53,18 +53,16 @@ app.post("/categoriasEquipo/update", function(request,response){
     var nombre = request.body.nombre;
     var query = "UPDATE categoriaequipo SET nombre = ? WHERE idCategoriaEquipo = ?";
     var parametros = [nombre, idCategoriaEquipo];
-    var query2 = "SELECT * FROM categoriaequipo WHERE idCategoriaEquipo = " + idCategoriaEquipo;
     conn.query(query,parametros, function (err, result) {
         if (err) {
             console.log(err);
         } else {
-            conn.query(query2,function (err, result) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    response.json(result);
-                }
-            })
+            var result = {
+                estado: "ok",
+                id: parametros[1],
+                nombre: parametros[0]
+            }
+            response.json(result);
         }
     })
 });
